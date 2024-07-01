@@ -29,6 +29,7 @@ export default function Home() {
             body: JSON.stringify({ topic: question }),
         });
         const data = await response.json();
+        console.log('Generated quiz questions:', data.questions);
         setQuizQuestions(data.questions ?? []);
     };
 
