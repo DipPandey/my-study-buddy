@@ -1,24 +1,20 @@
-import { Configuration, OpenAIApi } from 'openai';
-
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+import openai from '../../utils/openai';
 
 export default async function handler(req, res) {
     const { question } = req.body;
-    const response = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: `Answer the following question and provide resources for further reading: ${question}`,
-        max_tokens: 150,
-    });
-    const answer = response.data.choices[0].text.trim();
-
-    // Simulated resources
-    const resources = [
-        { title: 'Resource 1', link: 'https://example.com/resource1' },
-        { title: 'Resource 2', link: 'https://example.com/resource2' },
-    ];
-
-    res.status(200).json({ answer, resources });
+    try {
+        const chatCompletion = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            messages: [{ role: 'user', content: question }],
+        });
+        const answer = chatCompletion.choices[0].message.content;
+        res.status(200).json({ answer });
+    } catch (error) {
+        console.error('Error:', error);
+        if (error.response && error.response.status === 429) {
+            res.status(429).json({ error: 'You have exceeded your usage quota. Please check your OpenAI plan and billing details.' });
+        } else {
+            res.status(500).json({ error: 'Failed to fetch the answer. Please try again later.' });
+        }
+    }
 }

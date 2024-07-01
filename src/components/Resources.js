@@ -1,7 +1,7 @@
 export default function Resources({ resources }) {
     return (
         <div className="mt-4">
-            {resources.length > 0 && (
+            {resources?.length > 0 && (
                 <>
                     <h2 className="text-xl font-semibold">Recommended Resources:</h2>
                     <ul>

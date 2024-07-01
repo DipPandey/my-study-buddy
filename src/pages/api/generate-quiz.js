@@ -1,18 +1,27 @@
-import { Configuration, OpenAIApi } from 'openai';
-
-const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+import openai from '../../utils/openai';
 
 export default async function handler(req, res) {
     const { topic } = req.body;
-    const response = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: `Generate a quiz with questions and options on the topic: ${topic}`,
-        max_tokens: 200,
-    });
-    const questions = JSON.parse(response.data.choices[0].text.trim());
+    try {
+        const chatCompletion = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            messages: [{ role: 'user', content: `Generate a quiz with questions and options on the topic: ${topic}` }],
+        });
 
-    res.status(200).json({ questions });
+        const rawResponse = chatCompletion.choices[0].message.content;
+
+        // Ensure the response is valid JSON
+        let questions;
+        try {
+            questions = JSON.parse(rawResponse);
+        } catch (jsonError) {
+            console.error('Failed to parse JSON:', jsonError);
+            return res.status(500).json({ error: 'Failed to parse quiz data. Please try again later.' });
+        }
+
+        res.status(200).json({ questions });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to generate quiz. Please try again later.' });
+    }
 }
