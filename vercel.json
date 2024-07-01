@@ -7,7 +7,7 @@
     }
   ],
   "env": {
-    "OPENAI_API_KEY": "proj-L0AUGxntVzVskf10NLbZT3BlbkFJ81KsvTmrcRx6lpeWLqve"
+    "OPENAI_API_KEY": "sk-proj-L0AUGxntVzVskf10NLbZT3BlbkFJ81KsvTmrcRx6lpeWLqve"
   },
   "rewrites": [
     {
