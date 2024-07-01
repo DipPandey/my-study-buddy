@@ -2,11 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "next.config.mjs",
+      "src": "next.config.js",
       "use": "@vercel/next"
     }
   ],
   "env": {
-    "OPENAI_API_KEY": "openai_api_key"
-  }
+    "OPENAI_API_KEY": "@openai_api_key"
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
 }
