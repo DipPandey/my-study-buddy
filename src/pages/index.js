@@ -3,7 +3,7 @@ import QuestionInput from '../components/QuestionInput';
 import Answer from '../components/Answer';
 import Quiz from '../components/Quiz';
 import Resources from '../components/Resources';
-import Sidebar from '../components/sidebar';
+import Sidebar from '../components/Sidebar';
 
 export default function Home() {
     const [question, setQuestion] = useState('');
@@ -62,7 +62,7 @@ export default function Home() {
                                 Generate Resources
                             </button>
                             <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onClick={generateQuiz}>
-                                Quiz ME
+                                Generate Practice Quiz
                             </button>
                         </div>
                     </div>
