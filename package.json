@@ -9,17 +9,17 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "autoprefixer": "latest",
     "next": "latest",
+    "postcss": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "tailwindcss": "latest",
-    "autoprefixer": "latest",
-    "postcss": "latest"
+    "tailwindcss": "latest"
   },
   "devDependencies": {
+    "@types/node": "^20.14.9",
     "@types/react": "latest",
     "eslint": "latest",
-    "eslint-config-next": "latest",
-    "typescript": "latest"
+    "eslint-config-next": "latest"
   }
 }
