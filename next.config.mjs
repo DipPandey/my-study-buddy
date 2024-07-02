@@ -3,7 +3,7 @@
  */
 const nextConfig = {
     reactStrictMode: true,
-    target: 'serverless',
+   
 };
 
 export default nextConfig;
