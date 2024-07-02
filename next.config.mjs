@@ -1,14 +1,6 @@
-/**
- * @type {import('next').NextConfig}
- */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    trailingSlash: true,
-    images: {
-        loader: 'akamai',
-        path: '/',
-    },
-    basePath: '/<your-repo-name>',
+    reactStrictMode: true
 };
 
 export default nextConfig;
