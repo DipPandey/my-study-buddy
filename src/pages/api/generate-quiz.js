@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         console.log(`Received topic: ${topic}`);
 
         const chatCompletion = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-4',
             messages: [{ role: 'user', content: `Generate a quiz with questions, options, and correct answers on the topic: ${topic}. Format the response as a JSON array of objects with 'question', 'options', and 'correctAnswer' keys.` }],
         });
 
