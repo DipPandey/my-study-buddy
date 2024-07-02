@@ -2,32 +2,31 @@ import openai from '../../utils/openai';
 
 export default async function handler(req, res) {
     const { topic } = req.body;
+
     try {
         console.log(`Received topic: ${topic}`);
 
         const chatCompletion = await openai.chat.completions.create({
             model: 'gpt-4',
-            messages: [{ role: 'user', content: `Generate a quiz with questions, options, and correct answers on the topic: ${topic}. Format the response as a JSON array of objects with 'question', 'options', and 'correctAnswer' keys.` }],
+            messages: [{ role: 'user', content: `Generate a quiz with questions and options on the topic: ${topic}` }],
         });
 
         const rawResponse = chatCompletion.choices[0].message.content;
-        console.log(`Raw response: ${rawResponse}`);
+        console.log('Raw GPT-4 response:', rawResponse); // Log the raw response for debugging
 
-        // Check if rawResponse is undefined or empty
-        if (!rawResponse) {
-            return res.status(500).json({ error: 'Received an empty response from OpenAI.' });
-        }
-
-        // Try parsing the raw response to ensure it's valid JSON
-        let formattedResponse;
+        // Ensure the response is valid JSON
+        let questions;
         try {
-            formattedResponse = JSON.parse(rawResponse);
-        } catch (error) {
-            console.error('Failed to parse response:', error);
+            // Attempt to fix common JSON issues
+            const fixedResponse = rawResponse.replace(/(\d+)\.(\d+)\.(\d+)/g, '$1.$2$3');
+            questions = JSON.parse(fixedResponse);
+        } catch (jsonError) {
+            console.error('Failed to parse JSON:', jsonError);
             return res.status(500).json({ error: 'Failed to parse quiz data. Please try again later.' });
         }
 
-        res.status(200).json({ questions: formattedResponse });
+        console.log('Parsed questions:', questions); // Log the parsed questions for debugging
+        res.status(200).json({ questions });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Failed to generate quiz. Please try again later.' });
