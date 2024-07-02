@@ -1,25 +1,23 @@
 {
-  "name": "ai-study-buddy",
+  "name": "your-project-name",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.mjs"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "autoprefixer": "latest",
-    "mongoose": "latest",
     "next": "latest",
-    "openai": "^4.52.2",
-    "postcss": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "tailwindcss": "latest"
+    "tailwindcss": "latest",
+    "autoprefixer": "latest",
+    "postcss": "latest"
   },
   "devDependencies": {
-    "@types/react": "18.3.3",
+    "@types/react": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest",
     "typescript": "latest"
