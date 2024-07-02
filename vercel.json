@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "builds": [
+  "routes": [
     {
-      "src": "package.json",
-      "use": "@vercel/next"
+      "src": "/(.*)",
+      "dest": "/"
     }
-  ]
+  ],
+  "env": {
+    "OPENAI_API_KEY": "@openai_api_key"
+  }
 }
