@@ -3,13 +3,15 @@ import QuestionInput from '../components/QuestionInput';
 import Answer from '../components/Answer';
 import Quiz from '../components/Quiz';
 import Resources from '../components/Resources';
-import Sidebar from '../components/sidebar';
+import Sidebar from '../components/Sidebar';
 
 export default function Home() {
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
     const [quizQuestions, setQuizQuestions] = useState([]);
     const [resources, setResources] = useState([]);
+    const [isLoadingResources, setIsLoadingResources] = useState(false);
+    const [isLoadingQuiz, setIsLoadingQuiz] = useState(false);
 
     const fetchAnswer = async () => {
         const response = await fetch('/api/answer-question', {
@@ -22,13 +24,18 @@ export default function Home() {
     };
 
     const fetchResources = async () => {
-        const response = await fetch('/api/fetch-resources', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ topic: question }),
-        });
-        const data = await response.json();
-        setResources(data.resources ?? []);
+        setIsLoadingResources(true);
+        try {
+            const response = await fetch('/api/fetch-resources', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ topic: question }),
+            });
+            const data = await response.json();
+            setResources(data.resources ?? []);
+        } finally {
+            setIsLoadingResources(false);
+        }
     };
 
     const handleFetch = async () => {
@@ -37,14 +44,19 @@ export default function Home() {
     };
 
     const generateQuiz = async () => {
-        const response = await fetch('/api/generate-quiz', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ topic: question }),
-        });
-        const data = await response.json();
-        console.log('Generated quiz questions:', data.questions);
-        setQuizQuestions(data.questions ?? []);
+        setIsLoadingQuiz(true);
+        try {
+            const response = await fetch('/api/generate-quiz', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ topic: question }),
+            });
+            const data = await response.json();
+            console.log('Generated quiz questions:', data.questions);
+            setQuizQuestions(data.questions ?? []);
+        } finally {
+            setIsLoadingQuiz(false);
+        }
     };
 
     return (
@@ -58,15 +70,29 @@ export default function Home() {
                         <Answer answer={answer} />
                         <Resources resources={resources} />
                         <div className="flex space-x-4">
-                            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onClick={fetchResources}>
-                                Generate Resources
+                            <button
+                                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                onClick={fetchResources}
+                                disabled={isLoadingResources}
+                            >
+                                {isLoadingResources ? 'Generating Resources...' : 'Generate Resources'}
                             </button>
-                            <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onClick={generateQuiz}>
-                                Generate Practice Quiz
+                            <button
+                                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                                onClick={generateQuiz}
+                                disabled={isLoadingQuiz}
+                            >
+                                {isLoadingQuiz ? 'Generating Quiz...' : 'Generate Practice Quiz'}
                             </button>
                         </div>
                     </div>
-                    <Quiz quizQuestions={quizQuestions} />
+                    {isLoadingQuiz ? (
+                        <div className="flex justify-center items-center">
+                            <div className="loader">Loading...</div>
+                        </div>
+                    ) : (
+                        <Quiz quizQuestions={quizQuestions} />
+                    )}
                 </div>
             </div>
         </div>

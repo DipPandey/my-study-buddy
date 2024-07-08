@@ -4,6 +4,10 @@ export default function Quiz({ quizQuestions }) {
     const [selectedOptions, setSelectedOptions] = useState({});
     const [feedback, setFeedback] = useState({});
 
+    useEffect(() => {
+        console.log('Quiz component received quizQuestions:', quizQuestions);
+    }, [quizQuestions]);
+
     const handleOptionSelect = (questionIndex, option) => {
         setSelectedOptions(prev => ({
             ...prev,
