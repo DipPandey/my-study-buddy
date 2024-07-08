@@ -18,10 +18,12 @@ export default async function handler(req, res) {
                 Options: 3, 4, 5, 6
                 Answer: 4`
             }],
-            max_tokens: 1500,
+            max_tokens: 1000,
+            temperature: 0.7,
+            n: 1
         });
 
-        const rawResponse = chatCompletion.choices[0].message.content;
+        const rawResponse = chatCompletion.data.choices[0].message.content;
         console.log(`Raw response: ${rawResponse}`);
 
         if (!rawResponse) {
@@ -36,9 +38,10 @@ export default async function handler(req, res) {
             return { question, options, correctAnswer };
         });
 
+        console.log('Parsed questions:', questions);
         res.status(200).json({ questions });
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error:', error.message, error.stack);
         res.status(500).json({ error: 'Failed to generate quiz. Please try again later.' });
     }
 }

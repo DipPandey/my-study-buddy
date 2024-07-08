@@ -3,7 +3,7 @@ import QuestionInput from '../components/QuestionInput';
 import Answer from '../components/Answer';
 import Quiz from '../components/Quiz';
 import Resources from '../components/Resources';
-import Sidebar from '../components/sidebar';
+import Sidebar from '../components/Sidebar';
 
 export default function Home() {
     const [question, setQuestion] = useState('');
@@ -68,7 +68,7 @@ export default function Home() {
     };
 
     return (
-        <div className="flex bg-gray-900 text-black min-h-screen">
+        <div className="flex bg-gray-900 text-blue min-h-screen">
             <Sidebar />
             <div className="flex-1 p-6 flex flex-col h-screen">
                 <h1 className="text-3xl font-bold mb-6 text-center text-indigo-400">AI-Powered Quiz Buddy</h1>
