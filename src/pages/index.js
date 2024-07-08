@@ -60,25 +60,25 @@ export default function Home() {
     };
 
     return (
-        <div className="flex">
+        <div className="flex bg-gray-900 text-black min-h-screen">
             <Sidebar />
-            <div className="flex-1 p-4 flex flex-col h-screen">
-                <h1 className="text-2xl font-bold mb-4">AI-Powered Quiz Buddy</h1>
-                <div className="flex flex-col space-y-4 flex-grow overflow-y-auto">
-                    <div className="flex flex-col space-y-2">
+            <div className="flex-1 p-6 flex flex-col h-screen">
+                <h1 className="text-3xl font-bold mb-6 text-center text-indigo-400">AI-Powered Quiz Buddy</h1>
+                <div className="flex flex-col space-y-6 flex-grow overflow-y-auto">
+                    <div className="flex flex-col space-y-4 bg-gray-800 p-6 rounded-lg shadow-md">
                         <QuestionInput question={question} setQuestion={setQuestion} fetchAnswer={handleFetch} />
                         <Answer answer={answer} />
                         <Resources resources={resources} />
                         <div className="flex space-x-4">
                             <button
-                                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transform hover:scale-105 transition duration-300"
                                 onClick={fetchResources}
                                 disabled={isLoadingResources}
                             >
                                 {isLoadingResources ? 'Generating Resources...' : 'Generate Resources'}
                             </button>
                             <button
-                                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                                className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transform hover:scale-105 transition duration-300"
                                 onClick={generateQuiz}
                                 disabled={isLoadingQuiz}
                             >
@@ -88,7 +88,7 @@ export default function Home() {
                     </div>
                     {isLoadingQuiz ? (
                         <div className="flex justify-center items-center">
-                            <div className="loader">Go make a coffee while i am slaving away, loading...</div>
+                            <div className="loader">Loading...</div>
                         </div>
                     ) : (
                         <Quiz quizQuestions={quizQuestions} />
