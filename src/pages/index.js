@@ -3,7 +3,7 @@ import QuestionInput from '../components/QuestionInput';
 import Answer from '../components/Answer';
 import Quiz from '../components/Quiz';
 import Resources from '../components/Resources';
-import Sidebar from '../components/sidebar';
+import Sidebar from '../components/Sidebar';
 
 export default function Home() {
     const [question, setQuestion] = useState('');
@@ -51,9 +51,17 @@ export default function Home() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ topic: question }),
             });
+
             const data = await response.json();
-            console.log('Generated quiz questions:', data.questions);
-            setQuizQuestions(data.questions ?? []);
+            console.log('API response:', data);
+            if (data.error) {
+                console.error('API error:', data.error);
+            } else {
+                console.log('Generated quiz questions:', data.questions);
+                setQuizQuestions(data.questions ?? []);
+            }
+        } catch (error) {
+            console.error('Fetch error:', error);
         } finally {
             setIsLoadingQuiz(false);
         }
