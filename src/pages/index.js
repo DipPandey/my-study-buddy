@@ -3,7 +3,7 @@ import QuestionInput from '../components/QuestionInput';
 import Answer from '../components/Answer';
 import Quiz from '../components/Quiz';
 import Resources from '../components/Resources';
-import Sidebar from '../components/sidebar';
+import Sidebar from '../components/Sidebar';
 
 export default function Home() {
     const [question, setQuestion] = useState('');
