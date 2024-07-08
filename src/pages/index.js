@@ -3,7 +3,7 @@ import QuestionInput from '../components/QuestionInput';
 import Answer from '../components/Answer';
 import Quiz from '../components/Quiz';
 import Resources from '../components/Resources';
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/sidebar';
 
 export default function Home() {
     const [question, setQuestion] = useState('');
@@ -68,7 +68,7 @@ export default function Home() {
                     <div className="flex flex-col space-y-4 bg-gray-800 p-6 rounded-lg shadow-md">
                         <QuestionInput question={question} setQuestion={setQuestion} fetchAnswer={handleFetch} />
                         <Answer answer={answer} />
-                        <Resources resources={resources} />
+                        <Resources resources={resources} isLoadingResources={isLoadingResources} />
                         <div className="flex space-x-4">
                             <button
                                 className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transform hover:scale-105 transition duration-300"
