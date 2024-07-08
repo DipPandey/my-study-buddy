@@ -2,6 +2,7 @@ import openai from '../../utils/openai';
 
 export default async function handler(req, res) {
     const { topic } = req.body;
+
     try {
         console.log(`Received topic: ${topic}`);
 
@@ -15,13 +16,16 @@ export default async function handler(req, res) {
 
         // Check if rawResponse is undefined or empty
         if (!rawResponse) {
+            console.error('Error: Received an empty response from OpenAI.');
             return res.status(500).json({ error: 'Received an empty response from OpenAI.' });
         }
 
-        // Try parsing the raw response to ensure it's valid JSON
+        // Ensure the response is valid JSON
         let formattedResponse;
         try {
-            formattedResponse = JSON.parse(rawResponse);
+            // Attempt to fix common JSON issues
+            const formattedString = rawResponse.trim().replace(/```json|```/g, '');
+            formattedResponse = JSON.parse(formattedString);
         } catch (error) {
             console.error('Failed to parse response:', error);
             return res.status(500).json({ error: 'Failed to parse quiz data. Please try again later.' });
@@ -29,7 +33,7 @@ export default async function handler(req, res) {
 
         res.status(200).json({ questions: formattedResponse });
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error generating quiz:', error.message);
         res.status(500).json({ error: 'Failed to generate quiz. Please try again later.' });
     }
 }
