@@ -88,7 +88,7 @@ export default function Home() {
                     </div>
                     {isLoadingQuiz ? (
                         <div className="flex justify-center items-center">
-                            <div className="loader">Loading...</div>
+                            <div className="loader">Go make a coffee while i am slaving away, loading...</div>
                         </div>
                     ) : (
                         <Quiz quizQuestions={quizQuestions} />
