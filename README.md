@@ -1,6 +1,6 @@
 ![aiQuiz](https://github.com/DipPandey/my-study-buddy/assets/83689392/13085df5-a63e-4f48-9b1d-c96d12c474c2)
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
 
 ## Getting Started
 
