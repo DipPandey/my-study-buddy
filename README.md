@@ -15,6 +15,7 @@ pnpm dev
 # or
 bun dev
 ```
+Change env variable to your owm OpenAI API key
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
