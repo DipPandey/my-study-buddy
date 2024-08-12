@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 
 export default function Quiz() {
     const [topic, setTopic] = useState('');
@@ -66,7 +66,7 @@ export default function Quiz() {
 
             {quizQuestions.length > 0 && (
                 <div className="mt-6 w-full max-w-2xl">
-                    <h2 className="text-xl font-semibold mb-4">Quiz on "{topic}"</h2>
+                    <h2 className="text-xl font-semibold mb-4">Quiz on &quot;{topic}&quot;</h2>
                     <ul className="space-y-6">
                         {quizQuestions.map((question, index) => (
                             <li key={index} className="bg-white p-4 rounded shadow">
@@ -109,9 +109,9 @@ export default function Quiz() {
                                             <span className="font-semibold">Correct Answer:</span> <span className="text-green-600">{question.correctAnswer}</span>
                                         </p>
                                         {selectedAnswers[index] === question.correctAnswer ? (
-                                            <p className="mt-2 text-green-600 font-semibold">Correct! ??</p>
+                                            <p className="mt-2 text-green-600 font-semibold">Correct! 🎉</p>
                                         ) : (
-                                            <p className="mt-2 text-red-600 font-semibold">Incorrect ??</p>
+                                            <p className="mt-2 text-red-600 font-semibold">Incorrect 😞</p>
                                         )}
                                     </div>
                                 </div>
