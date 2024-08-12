@@ -14,7 +14,7 @@ export default function Answer({ answer }) {
             {answer && (
                 <div className="flex space-x-2 items-start">
                     <div className="bg-gray-600 p-3 rounded-l-md shadow">
-                        <strong>AI:</strong>
+                        <strong>Study buddy:</strong>
                     </div>
                     <div className="bg-blue-300 p-3 rounded-r-md flex-grow shadow-md">
                         {answer}

@@ -1,53 +1,69 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Quiz({ quizQuestions }) {
-    const [selectedOptions, setSelectedOptions] = useState({});
-    const [feedback, setFeedback] = useState({});
+    const [selectedAnswers, setSelectedAnswers] = useState({});
+    const [showResults, setShowResults] = useState(false);
 
-    useEffect(() => {
-        console.log('Quiz component received quizQuestions:', quizQuestions);
-    }, [quizQuestions]);
+    const handleAnswerSelect = (questionIndex, selectedOption) => {
+        setSelectedAnswers({
+            ...selectedAnswers,
+            [questionIndex]: selectedOption,
+        });
+    };
 
-    const handleOptionSelect = (questionIndex, option) => {
-        setSelectedOptions(prev => ({
-            ...prev,
-            [questionIndex]: option,
-        }));
-
-        const isCorrect = quizQuestions[questionIndex].correctAnswer === option;
-        setFeedback(prev => ({
-            ...prev,
-            [questionIndex]: isCorrect ? 'Correct!' : 'Incorrect, try again!',
-        }));
+    const handleSubmitQuiz = () => {
+        setShowResults(true);
     };
 
     if (!quizQuestions || quizQuestions.length === 0) {
-        return <div className="mt-4">No quiz questions generated.</div>;
+        return <div>No quiz available. Please generate a quiz first.</div>;
     }
 
     return (
-        <div className="mt-4 bg-gray-100 p-4 rounded shadow-md">
-            <h2 className="text-xl font-semibold mb-2">Generated Quiz:</h2>
-            <ul className="list-decimal ml-4">
+        <div className="quiz-container">
+            <h2 className="quiz-title">Your Quiz</h2>
+            <ul className="quiz-questions">
                 {quizQuestions.map((question, index) => (
-                    <li key={index} className="mb-4">
-                        <p className="font-semibold">{question.question}</p>
-                        <ul className="list-disc ml-6">
+                    <li key={index} className="quiz-question">
+                        <p>{question.question}</p>
+                        <ul className="quiz-options">
                             {question.options.map((option, idx) => (
                                 <li key={idx}>
                                     <button
-                                        className={`text-gray-800 px-2 py-1 rounded ${selectedOptions[index] === option ? 'bg-blue-300' : 'bg-white'}`}
-                                        onClick={() => handleOptionSelect(index, option)}
+                                        className={`quiz-option ${selectedAnswers[index] === option ? 'selected' : ''
+                                            }`}
+                                        onClick={() => handleAnswerSelect(index, option)}
                                     >
                                         {option}
                                     </button>
                                 </li>
                             ))}
                         </ul>
-                        {feedback[index] && <p className="mt-2 text-green-500">{feedback[index]}</p>}
                     </li>
                 ))}
             </ul>
+            <button onClick={handleSubmitQuiz} className="submit-button">
+                Submit Quiz
+            </button>
+            {showResults && (
+                <div className="quiz-results">
+                    <h3>Results</h3>
+                    {quizQuestions.map((question, index) => (
+                        <div key={index}>
+                            <p>{question.question}</p>
+                            <p>Your Answer: {selectedAnswers[index]}</p>
+                            <p>
+                                Correct Answer: <strong>{question.correctAnswer}</strong>
+                            </p>
+                            {selectedAnswers[index] === question.correctAnswer ? (
+                                <p className="correct">Correct!</p>
+                            ) : (
+                                <p className="incorrect">Incorrect</p>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }
