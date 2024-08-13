@@ -97,7 +97,7 @@ export default function Quiz() {
 
                     {showResults && (
                         <div className="mt-6 bg-gray-50 p-6 rounded shadow-lg">
-                            <h3 className="text-xl font-semibold mb-4 text-gray-700">Results</h3>
+                            <h3 className="text-xl font-semibold mb-4 text-gray-700">Result</h3>
                             {quizQuestions.map((question, index) => (
                                 <div key={index} className="mb-6">
                                     <p className="font-medium text-lg">{question.question}</p>
