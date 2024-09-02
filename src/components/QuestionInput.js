@@ -1,4 +1,10 @@
 export default function QuestionInput({ question, setQuestion, fetchAnswer, isLoading }) {
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            fetchAnswer();
+        }
+    };
+
     return (
         <div className="flex items-center space-x-2 bg-gray-100 p-4 rounded shadow-md">
             <input
@@ -7,6 +13,8 @@ export default function QuestionInput({ question, setQuestion, fetchAnswer, isLo
                 placeholder="Type your question..."
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
+                onKeyDown={handleKeyDown} // Add this line to handle "Enter" key press
+                disabled={isLoading}
             />
             <button
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center justify-center"

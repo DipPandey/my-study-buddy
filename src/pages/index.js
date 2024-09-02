@@ -12,10 +12,10 @@ export default function Home() {
     const [resources, setResources] = useState([]);
     const [isLoadingResources, setIsLoadingResources] = useState(false);
     const [isLoadingQuiz, setIsLoadingQuiz] = useState(false);
-    const [isLoadingAnswer, setIsLoadingAnswer] = useState(false); // Loading state for fetching answer
+    const [isLoadingAnswer, setIsLoadingAnswer] = useState(false);
 
     const fetchAnswer = async () => {
-        setIsLoadingAnswer(true); // Start loading for answer fetch
+        setIsLoadingAnswer(true);
         try {
             const response = await fetch('/api/answer-question', {
                 method: 'POST',
@@ -27,7 +27,7 @@ export default function Home() {
         } catch (error) {
             console.error('Error fetching answer:', error);
         } finally {
-            setIsLoadingAnswer(false); // Stop loading for answer fetch
+            setIsLoadingAnswer(false);
         }
     };
 
@@ -63,11 +63,9 @@ export default function Home() {
             });
 
             const data = await response.json();
-            console.log('API response:', data);
             if (data.error) {
                 console.error('API error:', data.error);
             } else {
-                console.log('Generated quiz questions:', data.questions);
                 setQuizQuestions(data.questions ?? []);
             }
         } catch (error) {
@@ -78,45 +76,47 @@ export default function Home() {
     };
 
     return (
-        <div className="flex flex-col md:flex-row bg-gray-900 text-blue min-h-screen">
+        <div className="flex flex-col md:flex-row bg-gray-900 text-black-100 min-h-screen">
             <Sidebar />
             <div className="flex-1 p-6 flex flex-col h-full overflow-y-auto">
-                <h1 className="text-3xl font-bold mb-6 text-center text-indigo-400">AI-Powered Quiz Buddy</h1>
-                <div className="flex flex-col space-y-6 flex-grow">
-                    <div className="flex flex-col space-y-4 bg-gray-800 p-6 rounded-lg shadow-md">
+                <h1 className="text-4xl font-extrabold mb-6 text-center text-indigo-400">AI-Powered Quiz Buddy</h1>
+
+                {/* Side-by-Side Sections with Independent Scrolls */}
+                <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 flex-grow">
+
+                    {/* Ask & Learn Section */}
+                    <div className="flex flex-col space-y-4 bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 flex-1 overflow-y-auto max-h-screen">
+                        <h2 className="text-2xl font-semibold text-indigo-300 mb-4">Ask & Learn</h2>
                         <QuestionInput
                             question={question}
                             setQuestion={setQuestion}
                             fetchAnswer={handleFetch}
-                            isLoading={isLoadingAnswer} // Pass the loading state to QuestionInput
+                            isLoading={isLoadingAnswer}
                         />
-                        <Answer answer={answer} />
-
-                        <Resources resources={resources} isLoadingResources={isLoadingResources} />
-                        <div className="flex flex-col sm:flex-row sm:space-x-4">
-                            <button
-                                className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 transform hover:scale-105 transition duration-300 mb-4 sm:mb-0"
-                                onClick={fetchResources}
-                                disabled={isLoadingResources}
-                            >
-                                {isLoadingResources ? 'Generating Resources...' : 'Generate Resources'}
-                            </button>
-                            <button
-                                className="bg-green-500 text-white px-6 py-3 rounded hover:bg-green-600 transform hover:scale-105 transition duration-300"
-                                onClick={generateQuiz}
-                                disabled={isLoadingQuiz}
-                            >
-                                {isLoadingQuiz ? 'Generating Quiz...' : 'Generate Practice Quiz'}
-                            </button>
-                        </div>
+                        {answer && (
+                            <div className="mt-4">
+                                <Answer answer={answer} />
+                            </div>
+                        )}
+                        {resources.length > 0 && (
+                            <div className="mt-4">
+                                <Resources resources={resources} isLoadingResources={isLoadingResources} />
+                            </div>
+                        )}
                     </div>
-                    {isLoadingQuiz ? (
-                        <div className="flex justify-center items-center">
-                            <div className="loader">Loading...</div>
-                        </div>
-                    ) : (
-                        <Quiz quizQuestions={quizQuestions} />
-                    )}
+
+                    {/* Generate Quiz Section */}
+                    <div className="flex flex-col space-y-4 bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 flex-1 overflow-y-auto max-h-screen">
+                        <h2 className="text-2xl font-semibold text-green-300 mb-4">Generate Quiz</h2>
+                        <Quiz
+                            quizQuestions={quizQuestions}
+                            setQuizQuestions={setQuizQuestions}
+                            topic={question}
+                            generateQuiz={generateQuiz}
+                            isLoadingQuiz={isLoadingQuiz}
+                        />
+                    </div>
+
                 </div>
             </div>
         </div>

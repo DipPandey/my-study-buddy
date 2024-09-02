@@ -6,13 +6,13 @@ export default function Quiz() {
     const [selectedAnswers, setSelectedAnswers] = useState({});
     const [showResults, setShowResults] = useState(false);
     const [error, setError] = useState(null);
-    const [isLoadingQuiz, setIsLoadingQuiz] = useState(false); // Add loading state
+    const [isLoadingQuiz, setIsLoadingQuiz] = useState(false);
 
     const generateQuiz = async () => {
-        setShowResults(false); // Reset the quiz results when generating a new quiz
+        setShowResults(false);
         setSelectedAnswers({});
         setQuizQuestions([]);
-        setIsLoadingQuiz(true); // Start loading
+        setIsLoadingQuiz(true);
         try {
             const response = await fetch('/api/generate-quiz', {
                 method: 'POST',
@@ -34,7 +34,7 @@ export default function Quiz() {
             console.error('Error fetching quiz:', error);
             setError('Failed to fetch quiz. Please try again later.');
         } finally {
-            setIsLoadingQuiz(false); // Stop loading
+            setIsLoadingQuiz(false);
         }
     };
 
@@ -49,6 +49,12 @@ export default function Quiz() {
         setShowResults(true);
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            generateQuiz();
+        }
+    };
+
     return (
         <div className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
             <h1 className="text-2xl font-bold mb-4">Quiz Generator</h1>
@@ -58,11 +64,12 @@ export default function Quiz() {
                 onChange={(e) => setTopic(e.target.value)}
                 placeholder="Enter a quiz topic"
                 className="p-2 border rounded mb-4 w-full max-w-md"
+                onKeyDown={handleKeyDown} // Add this line to handle "Enter" key press
             />
             <button
                 onClick={generateQuiz}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition flex items-center justify-center"
-                disabled={isLoadingQuiz} // Disable the button while loading
+                disabled={isLoadingQuiz}
             >
                 {isLoadingQuiz ? (
                     <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
