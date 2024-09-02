@@ -14,7 +14,7 @@ export default async function handler(req, res) {
             messages: [
                 {
                     role: 'user',
-                    content: `Create a quiz with 5 multiple-choice questions on the topic: "${topic}". Format the response in JSON format with the following structure:
+                    content: `Create a quiz with 4 multiple-choice questions on the topic: "${topic}". Format the response in JSON format with the following structure:
                     [
                         {
                             "question": "What is the capital of France?",
@@ -29,8 +29,8 @@ export default async function handler(req, res) {
                     ]`
                 },
             ],
-            max_tokens: 600,
-            temperature: 0.8,
+            max_tokens: 700,
+            temperature: 1,
         });
 
         const rawQuiz = response.choices[0].message.content.trim();
