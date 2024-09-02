@@ -14,7 +14,7 @@ export default async function handler(req, res) {
             messages: [
                 {
                     role: 'user',
-                    content: `Create a quiz with 5 multiple-choice questions on the topic: "${topic}". Format the response in JSON format with the following structure:
+                    content: `Create a quiz with 3 multiple-choice questions on the topic: "${topic}". Format the response in JSON format with the following structure:
                     [
                         {
                             "question": "What is the capital of France?",
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
                     ]`
                 },
             ],
-            max_tokens: 700,
+            max_tokens: 500,
             temperature: 0.7,
         });
 
