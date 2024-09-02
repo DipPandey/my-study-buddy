@@ -10,11 +10,11 @@ export default async function handler(req, res) {
     try {
         // Generate the quiz using OpenAI
         const response = await openai.chat.completions.create({
-            model: 'gpt-4', // You can use 'gpt-3.5-turbo' if 'gpt-4' is not available
+            model: 'gpt-4',
             messages: [
                 {
                     role: 'user',
-                    content: `Create a quiz with 4 multiple-choice questions on the topic: "${topic}". Format the response in JSON format with the following structure:
+                    content: `Create a quiz with 5 multiple-choice questions on the topic: "${topic}". Format the response in JSON format with the following structure:
                     [
                         {
                             "question": "What is the capital of France?",
@@ -29,8 +29,8 @@ export default async function handler(req, res) {
                     ]`
                 },
             ],
-            max_tokens: 700,
-            temperature: 1,
+            max_tokens: 1000, // Adjusted to allow space for 5 questions with answers
+            temperature: 0.7, // Balanced setting for more reliable output
         });
 
         const rawQuiz = response.choices[0].message.content.trim();
