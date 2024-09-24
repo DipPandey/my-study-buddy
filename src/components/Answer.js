@@ -9,15 +9,28 @@ export default function Answer({ answer }) {
         }
     }, [answer]);
 
+    // Function to format the answer into bullet points if needed
+    const formatAnswer = (text) => {
+        // Split answer by newlines to create bullet points
+        const lines = text.split('\n').filter(line => line.trim() !== '');
+        return lines.map((line, index) => (
+            <li key={index} className="mb-2">
+                {line}
+            </li>
+        ));
+    };
+
     return (
-        <div className={`bg-gray-800 p-4 rounded shadow-md mt-4 transition-transform transform ${isVisible ? 'scale-100' : 'scale-95'}`}>
+        <div className={`bg-gray-800 p-6 rounded-lg shadow-md mt-4 transition-all duration-300 transform ${isVisible ? 'scale-100' : 'scale-95'}`}>
             {answer && (
-                <div className="flex space-x-2 items-start">
-                    <div className="bg-gray-600 p-3 rounded-l-md shadow">
-                        <strong>Study buddy:</strong>
+                <div className="flex space-x-4 items-start">
+                    <div className="bg-indigo-500 p-3 rounded-l-lg shadow text-white font-bold">
+                        Study Buddy:
                     </div>
-                    <div className="bg-blue-300 p-3 rounded-r-md flex-grow shadow-md">
-                        {answer}
+                    <div className="bg-white text-gray-800 p-4 rounded-r-lg shadow-md flex-grow">
+                        <ul className="list-disc pl-6">
+                            {formatAnswer(answer)}
+                        </ul>
                     </div>
                 </div>
             )}

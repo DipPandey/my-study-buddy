@@ -4,22 +4,26 @@ export default async function handler(req, res) {
     const { question } = req.body;
 
     try {
+        // Fetch only the detailed answer
         const response = await openai.chat.completions.create({
             model: 'gpt-4',
-            messages: [{ role: 'user', content: `Provide detailed answer and recommend resources for the following question: ${question}` }],
-            max_tokens:500
+            messages: [
+                {
+                    role: 'user',
+                    content: `Provide a detailed and comprehensive answer in bullet points easily readable to user for the following question: "${question}". Include important facts, explanations, and examples in bullets.`
+                }
+            ],
+            max_tokens: 700, // Adjusted for a detailed answer
+            temperature: 0.7
         });
 
-        const rawAnswer = response.choices[0].message.content;
-        const [answer, ...resourceLines] = rawAnswer.split('\n');
+        const answer = response.choices[0].message.content.trim();
+        console.log('Generated Answer:', answer); // Debugging output
 
-        const resources = resourceLines
-            .filter(line => line.includes('http'))
-            .map((line, index) => ({ title: `Resource ${index + 1}`, link: line.trim() }));
-
-        res.status(200).json({ answer, resources });
+        // Return just the answer
+        res.status(200).json({ answer });
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ error: 'Failed to get answer and resources. Please try again later.' });
+        res.status(500).json({ error: 'Failed to get the answer. Please try again later.' });
     }
 }
