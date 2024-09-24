@@ -2,33 +2,36 @@ import { useEffect, useState } from 'react';
 
 export default function Resources({ resources, isLoadingResources }) {
     return (
-        <div className="bg-white p-4 rounded shadow-md mt-4">
+        <div className="bg-gray-100 p-6 rounded-lg shadow-md mt-4">
             {isLoadingResources ? (
                 <div className="flex justify-center items-center">
                     <div className="loader">Loading...</div>
                 </div>
             ) : (
-                resources?.length > 0 && (
-                    <>
-                        <h2 className="text-xl font-semibold mb-2">Recommended Resources:</h2>
-                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {resources.map((resource, index) => (
-                                <a
-                                    key={index}
-                                    href={resource.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="border p-4 rounded hover:shadow-lg transition-shadow duration-300 block"
-                                >
-                                    <li className="flex flex-col text-blue-500 hover:underline">
-                                        <h3 className="font-bold">{resource.title}</h3>
-                                        <p>{resource.link}</p>
+                <>
+                    {resources?.length > 0 ? (
+                        <>
+                            <h2 className="text-xl font-semibold mb-4 text-gray-800">Recommended Resources:</h2>
+                            <ul className="space-y-4">
+                                {resources.map((resource, index) => (
+                                    <li key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                                        <a
+                                            href={resource.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex flex-col text-indigo-600 hover:text-indigo-800 transition-colors duration-300"
+                                        >
+                                            <h3 className="font-bold text-lg">{resource.title}</h3>
+                                            <p className="text-sm break-all">{resource.link}</p>
+                                        </a>
                                     </li>
-                                </a>
-                            ))}
-                        </ul>
-                    </>
-                )
+                                ))}
+                            </ul>
+                        </>
+                    ) : (
+                        <p className="text-gray-600">No resources found. Please enter a topic to see recommendations.</p>
+                    )}
+                </>
             )}
         </div>
     );
