@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         const response = await openai.chat.completions.create({
             model: 'gpt-4',
             messages: [{ role: 'user', content: `Provide recommended online resources (articles, websites, etc.) for studying the following topic: ${topic}` }],
-            max_tokens: 150,
+            max_tokens: 500,
         });
 
         const rawResources = response.choices[0].message.content;
